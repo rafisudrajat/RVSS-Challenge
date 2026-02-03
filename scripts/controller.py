@@ -5,7 +5,7 @@ def calculate_action(Kp, Ki, Kd, d_left, d_right, stop_sign_detected, e_prev=0, 
     
     # --- CONSTANTS ---
     BASE_SPEED = 15      
-    TURN_BRAKING = 0.3    
+    TURN_BRAKING = 0.0  
     MAX_INTEGRAL = 10.0   # Anti-windup limit (Tune this!)
 
     # --- 1. PRIORITY: STOP SIGN ---
@@ -23,7 +23,7 @@ def calculate_action(Kp, Ki, Kd, d_left, d_right, stop_sign_detected, e_prev=0, 
     # --- 3. CALCULATE STEERING ERROR ---
     # Normalized error: Range [-1.0 to 1.0]
     # If error is positive, we are too far to the right, (need to steer left)
-    error = (d_left - d_right) / ( abs(d_left + d_right) + 1e-6)
+    error = (d_left - d_right) / ( abs(d_left - d_right) + 1e-6)
     
     # Proportional
     P = Kp * error
@@ -43,7 +43,7 @@ def calculate_action(Kp, Ki, Kd, d_left, d_right, stop_sign_detected, e_prev=0, 
     e_prev = error
     
     # --- 4. CALCULATE DYNAMIC SPEED ---
-    current_speed = BASE_SPEED - (abs(error) * TURN_BRAKING)
+    current_speed = BASE_SPEED * TURN_BRAKING
     
     # --- 5. MIX MOTORS ---
     left_motor = current_speed - steering_adjustment
