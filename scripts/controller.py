@@ -5,7 +5,6 @@ def calculate_action(Kp, Ki, Kd, d_left, d_right, stop_sign_detected, e_prev=0, 
     
     # --- CONSTANTS ---
     BASE_SPEED = 15      
-    TURN_BRAKING = 0.0  
     MAX_INTEGRAL = 10.0   # Anti-windup limit (Tune this!)
 
     # --- 1. PRIORITY: STOP SIGN ---
@@ -43,7 +42,7 @@ def calculate_action(Kp, Ki, Kd, d_left, d_right, stop_sign_detected, e_prev=0, 
     e_prev = error
     
     # --- 4. CALCULATE DYNAMIC SPEED ---
-    current_speed = BASE_SPEED * TURN_BRAKING
+    current_speed = BASE_SPEED
     
     # --- 5. MIX MOTORS ---
     left_motor = current_speed - steering_adjustment
